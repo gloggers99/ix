@@ -47,13 +47,20 @@ void vga_putc_at(const char ch, size_t x, size_t y) {
 }
 
 void vga_putc(const char ch) {
-	vga_putc_at(ch, vga_column, vga_row);
+	if (ch != '\n') {
+		vga_putc_at(ch, vga_column, vga_row);
+	}
 
 	if (++vga_column == VGA_WIDTH) {
 		vga_column = 0;
 		if (++vga_row == VGA_HEIGHT) {
 			vga_row = 0;
 		}
+	}
+
+	if (ch == '\n') {
+		vga_row++;
+		vga_column = 0;
 	}
 
 }
